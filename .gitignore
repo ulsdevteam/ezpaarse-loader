@@ -1,7 +1,11 @@
-sqlplus.env
+common.env
 done/*
 !done/.gitkeep
 working/*
 !working/.gitkeep
 pending/*
 !pending/.gitkeep
+parsed/*
+!parsed/.gitkeep
+downloads/*
+!downloads/.gitkeep

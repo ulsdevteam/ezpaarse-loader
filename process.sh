@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source sqlplus.env
+source common.env
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -23,7 +23,7 @@ fi
 
 for f in $EZPFILESDIR/pending/*
 do
-	fname=`echo $f | rev | cut -d'/' -f1 | rev`
+	fname="${$f##*/}"
 	if [ -e $EZPFILESDIR/done/$fname ]
 	then
 		>&2 echo $fname' already exists in "done"'
