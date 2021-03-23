@@ -3,6 +3,12 @@
 # Require $PROXYUSER, $PROXYPASS, $MYSITE; Optionally set $EZPFILESDIR
 source common.env
 
+DAYSPRIOR=30
+if [[ "$1" =~ ^[0-9]+$ ]]
+then
+	DAYSPRIOR=$1
+fi
+
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Default directory is this program's working directory
@@ -23,7 +29,7 @@ then
 	exit 1
 fi
 
-for i in {1..30}
+for ((i=1; i<=$DAYSPRIOR; i++))
 do
 	TARGETDATE=`date "+%Y%m%d" -d "$CURDATE -$i days"`
 	if [[ ! -e $EZPFILESDIR/downloads/ezp${TARGETDATE}.log ]]
