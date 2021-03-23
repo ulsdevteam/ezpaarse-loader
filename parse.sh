@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # Allow override of $EZPFILESDIR and $EZPURL
 source common.env
