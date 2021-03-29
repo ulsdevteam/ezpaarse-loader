@@ -4,10 +4,10 @@ source common.env
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
-echo $LD_LIBRARY_PATH | grep -qF $ORACLE_HOME/lib
+echo :$LD_LIBRARY_PATH: | grep -qF :$ORACLE_HOME/lib:
 if [[ $? != 0 ]]
 then
-	LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$LD_LIBRARY_PATH
 fi
 
 if [[ "$EZPFILESDIR" == "" ]]
@@ -23,7 +23,7 @@ fi
 
 for f in $EZPFILESDIR/pending/*
 do
-	fname="${$f##*/}"
+	fname=`basename $f`
 	if [ -e $EZPFILESDIR/done/$fname ]
 	then
 		>&2 echo $fname' already exists in "done"'

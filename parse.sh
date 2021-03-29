@@ -19,7 +19,7 @@ PROCESSED_DIR=$EZPFILESDIR/parsed
 
 for f in $EZPFILESDIR/downloads/*
 do
-	RAW_LOG_FILE="${f##*/}"
+	RAW_LOG_FILE=`basename $f`
 
 	if [ -d $PROCESSED_DIR/$RAW_LOG_FILE ]
 	then
