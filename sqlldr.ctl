@@ -7,8 +7,6 @@ TIMESTAMP WITH TIME ZONE 'YYYY-MM-DD"T"HH24:MI:SS+TZH:TZM'
 DATE FORMAT 'YYYY-MM-DD'
 (
   "loadid" CHAR(128),
-  "rc" CHAR(2),
-  "dept" CHAR(6),
   "datetime" TIMESTAMP WITH TIME ZONE,
   "date" DATE,
   "login" CHAR(17) "RTRIM(REPLACE(:\"login\", '@pitt.edu', ''))",

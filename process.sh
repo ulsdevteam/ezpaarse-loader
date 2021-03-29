@@ -46,7 +46,7 @@ do
 	# Move the file into the working directory
 	mv $f $EZPFILESDIR/working/$fname
 	# Munge the file to remove the header and to add the filename and blanks for the RC, DEPT.
-	sed 1d < $EZPFILESDIR/working/$fname | sed "s/^/$fname;;;/" >> $EZPFILESDIR/working/$fname.data
+	sed 1d < $EZPFILESDIR/working/$fname | sed "s/^/$fname;/" >> $EZPFILESDIR/working/$fname.data
 	# Clear any existing records for this file (allows for re-runs with updated data)
 	echo -e "DELETE FROM EZPAARSE_RESULTS WHERE \"loadid\" = '$fname';\n/\nEXIT" > $EZPFILESDIR/working/$fname.sql
 	$ORACLE_HOME/bin/sqlplus -S $ORAUSER/$ORAPW@$ORASERVER @$EZPFILESDIR/working/$fname.sql > $EZPFILESDIR/working/$fname.sqllog
