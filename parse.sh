@@ -73,7 +73,7 @@ do
 	then
 		# Flag this result as failed
 		mv $PROCESSED_DIR/$RAW_LOG_FILE/results.txt $PROCESSED_DIR/$RAW_LOG_FILE/results.failed
-		>&2 echo 'Processing failed'
+		>&2 echo 'Processing failed for '$RAW_LOG_FILE
 	else
 		# Copy the sucessful results for pickup
 		cp $PROCESSED_DIR/$RAW_LOG_FILE/results.txt $EZPFILESDIR/pending/$RAW_LOG_FILE
