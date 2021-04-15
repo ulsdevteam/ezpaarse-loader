@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Allow override of $EZPFILESDIR and $EZPURL
-source common.env
+source `dirname $0`/common.env
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 

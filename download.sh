@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Require $PROXYUSER, $PROXYPASS, $MYSITE; Optionally set $EZPFILESDIR
-source common.env
+source `dirname $0`/common.env
 
 DAYSPRIOR=30
 if [[ "$1" =~ ^[0-9]+$ ]]
