@@ -19,7 +19,7 @@ then
 fi
 
 # fetch sponsored accounts from LDAP
-ldapsearch -LLL -D 'cn=RS600009,ou=Accounts,dc=univ,dc=pitt,dc=edu' -W -p 389 -h pittad.univ.pitt.edu -b 'OU=Accounts,DC=univ,DC=pitt,DC=edu' -s sub -E pr=10000/noprompt '(&(PittSponsorRC=*)(!(PittSponsorRC=AL)))' cn PittSponsorRC > $EZPFILESDIR/working/sponsored.$$.ldap
+ldapsearch -LLL -D "$LDAPUSER" -w "$LDAPPASS" -p 389 -h "$LDAPHOST" -b "$LDAPBASE" -s sub -E pr=10000/noprompt '(&(PittSponsorRC=*)(!(PittSponsorRC=AL)))' cn PittSponsorRC > $EZPFILESDIR/working/sponsored.$$.ldap
 
 if [[ $? != 0 ]]
 then

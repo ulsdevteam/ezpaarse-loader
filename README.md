@@ -1,7 +1,7 @@
 # EZPAARSE Data Loader
 
 ## Purpose
-Download EZProxy logs, parse with EZPAARSE, and load processed logs into an Oracle table.
+Download EZProxy logs, parse with EZPAARSE, and load processed consulation events into an Oracle table.  The users from these consulation events will be matched against Responsiblity Centers (RCs).
 
 ## Configuration
  * Copy common.env.sample to common.env with your Oracle username, password, and server, and any other customizations
@@ -16,6 +16,10 @@ Download EZProxy logs, parse with EZPAARSE, and load processed logs into an Orac
  * `./process.sh`
    * will look in `pending/` for new logs, moving them to `done/` when completed
    * failures will be output to STDERR, and failed logs and temporary files will be left in `working/`
+ * `./sponsor.sh`
+   * will look at custom LDAP attributes to populate a custom table of RC codes for certain accounts
+   * failures will be output to STDERR
+   * for usage outside of Pitt, you'll need to modify the LDAP filter and attributes selected
 
 ## Copyright/License
  * Copyright University of Pittsburgh
