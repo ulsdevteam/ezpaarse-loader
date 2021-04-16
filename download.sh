@@ -3,7 +3,7 @@
 # Require $PROXYUSER, $PROXYPASS, $MYSITE; Optionally set $EZPFILESDIR
 source `dirname $0`/common.env
 
-DAYSPRIOR=30
+DAYSPRIOR=14
 if [[ "$1" =~ ^[0-9]+$ ]]
 then
 	DAYSPRIOR=$1

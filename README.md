@@ -8,7 +8,7 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
 
 ## Usage
  * `./download.sh [n]`
-   * will look in `downloads/` and fill the directory with any missing logs from the last *n* days (default: 30)
+   * will look in `downloads/` and fill the directory with any missing logs from the last *n* days (default: 14)
  * `./parse.sh`
    * will look in `downloads/` for new logs, capturing EZPAARSE output to `parsed/`
    * failures will be output to STDERR, and failed logs and temporary files will be left in `parsed/`
