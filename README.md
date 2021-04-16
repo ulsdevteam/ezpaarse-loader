@@ -20,6 +20,10 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
    * will look at custom LDAP attributes to populate a custom table of RC codes for certain accounts
    * failures will be output to STDERR
    * for usage outside of Pitt, you'll need to modify the LDAP filter and attributes selected
+ * `./postprocess.sh`
+   * will populate a datatable with RC codes based on custom SQL
+   * failures will be output to STDERR
+   * for usage outside of Pitt, you'll need to modify the postprocess.sql file
 
 ## Copyright/License
  * Copyright University of Pittsburgh
