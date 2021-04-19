@@ -48,13 +48,24 @@ do
 	# Munge the file to remove the header and to add the filename and blanks for the RC, DEPT.
 	sed 1d < $EZPFILESDIR/working/$fname | sed "s/^/$fname;/" >> $EZPFILESDIR/working/$fname.data
 	# Clear any existing records for this file (allows for re-runs with updated data)
-	echo -e "DELETE FROM EZPAARSE_RESULTS WHERE \"loadid\" = '$fname';\n/\nEXIT" > $EZPFILESDIR/working/$fname.sql
-	$ORACLE_HOME/bin/sqlplus -S $ORAUSER/$ORAPW@$ORASERVER @$EZPFILESDIR/working/$fname.sql > $EZPFILESDIR/working/$fname.sqllog
+	echo -e "DELETE FROM EZPAARSE_RESULT_DEPTS WHERE \"recordid\" IN (SELECT \"recordid\" FROM EZPAARSE_RESULTS WHERE \"loadid\" = '$fname');\n/\nEXIT" > $EZPFILESDIR/working/$fname.deldept.sql
+	$ORACLE_HOME/bin/sqlplus -S $ORAUSER/$ORAPW@$ORASERVER @$EZPFILESDIR/working/$fname.deldept.sql > $EZPFILESDIR/working/$fname.deldept.sqllog
 	# Check for sane response from sqlplus
-	grep -q 'rows deleted.' $EZPFILESDIR/working/$fname.sqllog
+	grep -q 'rows deleted.' $EZPFILESDIR/working/$fname.deldept.sqllog
 	if [[ $? != 0 ]]
 	then
-		>&2 echo 'Failed to clear any existing loads for '$fname
+		>&2 echo 'Failed to clear any existing loads (depts) for '$fname
+		>&2 cat $EZPFILESDIR/working/$fname.deldept.sqllog
+		continue
+	fi
+	echo -e "DELETE FROM EZPAARSE_RESULTS WHERE \"loadid\" = '$fname';\n/\nEXIT" > $EZPFILESDIR/working/$fname.delrec.sql
+	$ORACLE_HOME/bin/sqlplus -S $ORAUSER/$ORAPW@$ORASERVER @$EZPFILESDIR/working/$fname.delrec.sql > $EZPFILESDIR/working/$fname.delrec.sqllog
+	# Check for sane response from sqlplus
+	grep -q 'rows deleted.' $EZPFILESDIR/working/$fname.delrec.sqllog
+	if [[ $? != 0 ]]
+	then
+		>&2 echo 'Failed to clear any existing loads (results) for '$fname
+		>&2 cat $EZPFILESDIR/working/$fname.delrec.sqllog
 		continue
 	fi
 	# Load the data with sqlldr
@@ -63,7 +74,7 @@ do
 	if [[ $? != 0 ]]
 	then
 		>&2 echo 'Failed to load '$fname
-		>&2 cat $EZPFILESDIR/working/$fname.sqllog
+		>&2 cat $EZPFILESDIR/working/$fname.sqllog.load.rpt
 	else
 		mv $EZPFILESDIR/working/$fname $EZPFILESDIR/done/
 		rm $EZPFILESDIR/working/$fname.*

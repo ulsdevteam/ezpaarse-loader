@@ -24,6 +24,6 @@ grep -qF 'PL/SQL procedure successfully completed.' $EZPFILESDIR/working/postpro
 if [[ $? != 0 ]]
 then
 	>&2 echo 'Failed to load new sponsored accounts.'
-	cat $EZPFILESDIR/working/postprocess.$$.sqllog
+	>&2 cat $EZPFILESDIR/working/postprocess.$$.sqllog
 fi
 rm $EZPFILESDIR/working/postprocess.$$.sqllog
