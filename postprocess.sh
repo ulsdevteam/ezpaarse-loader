@@ -23,7 +23,7 @@ $ORACLE_HOME/bin/sqlplus -S $ORAUSER/$ORAPW@$ORASERVER @$SCRIPTDIR/postprocess.s
 grep -qF 'PL/SQL procedure successfully completed.' $EZPFILESDIR/working/postprocess.$$.sqllog
 if [[ $? != 0 ]]
 then
-	>&2 echo 'Failed to load new sponsored accounts.'
+	>&2 echo 'Failed to map accounts.'
 	>&2 cat $EZPFILESDIR/working/postprocess.$$.sqllog
 fi
 rm $EZPFILESDIR/working/postprocess.$$.sqllog

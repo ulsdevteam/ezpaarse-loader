@@ -16,7 +16,8 @@ FROM
 			CASE WHEN dp.responsibility_center_cd = '00' THEN rc.responsibility_center_cd ELSE dp.responsibility_center_cd END as rc_cd,
 			CASE WHEN dp.responsibility_center_cd = '00' THEN rc.responsibility_center_descr ELSE dp.responsibility_center_descr END as rc_descr,
 			dp.department_cd,
-			dp.department_descr
+			dp.department_descr,
+			cal.full_dt
 		FROM
 			UD_DATA.ST_ENROLLMENT en
 			INNER JOIN UD_DATA.ud_calendar cal ON cal.calendar_key = en.calendar_key
@@ -36,7 +37,7 @@ FROM
 	) stu ON ez."login" = stu.username AND (EZ."datetime" BETWEEN stu.start_dt AND stu.end_dt)
 WHERE
 	ez."recordid" NOT IN (SELECT "recordid" FROM UDA4ULA.EZPAARSE_RESULT_DEPTS)
-	AND ez."datetime" > TRUNC(SYSDATE, 'MM')
+	AND ez."datetime" < TRUNC(SYSDATE, 'MM')
 UNION
 SELECT
 	ez."recordid",
@@ -70,7 +71,7 @@ FROM
 	) em ON ez."login" = em.username AND (EZ."datetime" BETWEEN em.start_dt AND em.end_dt)
 WHERE
 	ez."recordid" NOT IN (SELECT "recordid" FROM UDA4ULA.EZPAARSE_RESULT_DEPTS)
-	AND ez."datetime" > TRUNC(SYSDATE, 'MM')
+	AND ez."datetime" < TRUNC(SYSDATE, 'MM')
 ;
 
 INSERT INTO
@@ -84,7 +85,7 @@ FROM
   JOIN EZPAARSE_SPACCT_RCS ON (EZPAARSE_RESULTS."login" = EZPAARSE_SPACCT_RCS."login")
 WHERE
   "recordid" NOT IN (SELECT "recordid" FROM EZPAARSE_RESULT_DEPTS)
-  AND EZPAARSE_RESULTS."datetime" > TRUNC(SYSDATE, 'MM')
+  AND EZPAARSE_RESULTS."datetime" < TRUNC(SYSDATE, 'MM')
 ;
 
 --UPDATE EZPAARSE_RESULTS SET "login" = '' WHERE "recordid" IN (SELECT "recordid" FROM EZPAARSE_RESULT_DEPTS);
