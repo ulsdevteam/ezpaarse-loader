@@ -4,6 +4,7 @@ CREATE TABLE EZPAARSE_RESULTS (
   "datetime" TIMESTAMP WITH TIME ZONE,
   "date" DATE,
   "login" VARCHAR2(8),
+  "user_hash" NCHAR(64),
   "platform" NVARCHAR2(64),
   "platform_name" NVARCHAR2(128),
   "publisher_name" NVARCHAR2(128),
@@ -60,6 +61,10 @@ CREATE TABLE EZPAARSE_SPACCT_RCS (
 );
 
 CREATE INDEX EZPSR_FK ON EZPAARSE_SPACCT_RCS ("login");
+
+CREATE TABLE EZPAARSE_SALT (
+  "salt" NVARCHAR2(128)
+);
 
 /
 
