@@ -4,7 +4,8 @@ INSERT INTO EZPAARSE_RESULT_DEPTS
 SELECT
 	ez."recordid",
 	stu.rc_cd,
-	stu.department_cd
+	stu.department_cd,
+        'Student'
 FROM
 	UDA4ULA.EZPAARSE_RESULTS ez 
 	INNER JOIN
@@ -42,7 +43,8 @@ UNION
 SELECT
 	ez."recordid",
 	em.rc_cd,
-	em.department_cd
+	em.department_cd,
+	em.job_type
 FROM
 	UDA4ULA.EZPAARSE_RESULTS ez 
 	INNER JOIN
@@ -54,7 +56,8 @@ FROM
 			dep.responsibility_center_cd as rc_cd,
 			dep.responsibility_center_descr as rc_descr,
 			dep.department_cd,
-			dep.department_descr
+			dep.department_descr,
+			jb.job_type
 		FROM
 			ud_data.py_employment py
 			INNER JOIN ud_data.ud_calendar cal ON cal.calendar_key = py.calendar_key
@@ -64,7 +67,7 @@ FROM
 		WHERE
 			dep.current_flg = 1
 			AND cal.py_month_end_flg = 'Y' 
-			AND job_type != 'Student'
+			AND jb.job_type != 'Student'
 			AND cal.full_dt > '01-JAN-19' 
 		ORDER BY
 			start_dt
@@ -79,7 +82,8 @@ INSERT INTO
 SELECT
   "recordid",
   "rc",
-  '00000'
+  '00000',
+  'Sponsored Account'
 FROM
   EZPAARSE_RESULTS
   JOIN EZPAARSE_SPACCT_RCS ON (EZPAARSE_RESULTS."login" = EZPAARSE_SPACCT_RCS."login")
