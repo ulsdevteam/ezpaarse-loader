@@ -74,7 +74,7 @@ do
 	if [[ $? != 0 ]]
 	then
 		>&2 echo 'Failed to load '$fname
-		>&2 cat $EZPFILESDIR/working/$fname.sqllog.load.rpt
+		>&2 cat $EZPFILESDIR/working/$fname.load.rpt
 	else
 		mv $EZPFILESDIR/working/$fname $EZPFILESDIR/done/
 		rm $EZPFILESDIR/working/$fname.*
