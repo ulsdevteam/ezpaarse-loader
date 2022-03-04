@@ -3,6 +3,11 @@
 # Require $PROXYUSER, $PROXYPASS, $MYSITE; Optionally set $EZPFILESDIR
 source `dirname $0`/common.env
 
+function validate_url() {
+	wget -q --spider --load-cookies $SESSIONFILE $1
+	return $?
+}
+
 DAYSPRIOR=14
 if [[ "$1" =~ ^[0-9]+$ ]]
 then
@@ -34,12 +39,34 @@ do
 	TARGETDATE=`date "+%Y%m%d" -d "$CURDATE -$i days"`
 	if [[ ! -e $EZPFILESDIR/downloads/ezp${TARGETDATE}.log ]]
 	then
-		wget -q --load-cookies $SESSIONFILE -O ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log  "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log"
-		if [[ $? != 0 ]]
+		if validate_url "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log"
 		then
-			rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log
-			>&2 echo 'Failed to download ezp'$TARGETDATE', wget exited with '$?
+			wget -q --load-cookies $SESSIONFILE -O ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log  "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log"
+			if [[ $? != 0 ]]
+			then
+				rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log
+				>&2 echo 'Failed to download ezp'$TARGETDATE'.log, wget exited with '$?
+			fi
+		elif validate_url "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log.gz"
+		then
+			wget -q --load-cookies $SESSIONFILE -O ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz  "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log.gz"
+			if [[ $? != 0 ]]
+			then
+				rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
+				>&2 echo 'Failed to download ezp'$TARGETDATE'.log.gz, wget exited with '$?
+			else 
+				gzip -d ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
+				if [[ $? != 0 ]]
+				then
+					rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
+					>&2 echo 'Failed to decompress ezp'$TARGETDATE'.log.gz, gzip exited with '$?
+				fi
+			fi
+		else
+			echo 'Neither ezp'$TARGETDATE'.log nor ezp'$TARGETDATE'.log.gz could be found on the server.'
 		fi
+		else
+			echo 'File already exists.'
 	fi
 done
 
