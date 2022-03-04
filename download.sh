@@ -37,7 +37,7 @@ fi
 for ((i=1; i<=$DAYSPRIOR; i++))
 do
 	TARGETDATE=`date "+%Y%m%d" -d "$CURDATE -$i days"`
-	if [[ ! -e $EZPFILESDIR/downloads/ezp${TARGETDATE}.log ]]
+	if [[ ! -e $EZPFILESDIR/downloads/ezp${TARGETDATE}.log && ! -e $EZPFILESDIR/downloads/ezp${TARGETDATE}.log.gz ]]
 	then
 		if validate_url "https://login.${MYSITE}.idm.oclc.org/loggedin/admlog/ezp${TARGETDATE}.log"
 		then
