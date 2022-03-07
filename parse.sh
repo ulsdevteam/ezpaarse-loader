@@ -7,8 +7,10 @@ SKIPCOMPRESSION=0
 if [[ $1 == "-s" ]] || [[ $1 == "--skip" ]] || [[ $1 == "-skip" ]]
 then
 	SKIPCOMPRESSION=1
-else
+elif [[ $1 == "" ]]
 then
+:
+else
 	>&2 echo "Invalid argument, aborting"
 	exit
 fi
@@ -44,7 +46,7 @@ do
 	RAW_LOG_FILE=`basename $f`
 
 	# If file is already compressed, skip it
-	if [[ $RAW_LOG_FILE == "*.gz" ]]
+	if [[ $RAW_LOG_FILE == *.gz ]]
 	then
 		continue;
 	fi
