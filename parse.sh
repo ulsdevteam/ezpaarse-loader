@@ -33,6 +33,12 @@ do
 	# Extract the log file name
 	RAW_LOG_FILE=`basename $f`
 
+	# If file is already compressed, skip it
+	if [[$RAW_LOG_FILE == "*.gz"]]
+	then
+		continue;
+	fi
+
 	# If results already exist for this log file, skip it
 	if [ -e $PROCESSED_DIR/$RAW_LOG_FILE/results.txt ]
 	then
@@ -77,5 +83,12 @@ do
 	else
 		# Copy the sucessful results for pickup
 		cp $PROCESSED_DIR/$RAW_LOG_FILE/results.txt $EZPFILESDIR/pending/$RAW_LOG_FILE
+		# Compress log file within downloads directory
+		gzip $f;
+		if [[ $? != 0 ]]
+		then
+			rm $f
+			>&2 echo 'Failed to compress '$RAW_LOG_FILE', gzip exited with '$?
+		fi
 	fi
 done
