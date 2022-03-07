@@ -11,7 +11,7 @@ elif [[ $1 == "" ]]
 then
 :
 else
-	>&2 echo "Invalid argument, aborting"
+	>&2 echo 'Invalid argument: '$1'. The only valid arguments are -s, -skip, --skip. Aborting now.'
 	exit
 fi
 
