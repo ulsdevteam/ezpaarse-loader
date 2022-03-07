@@ -5,6 +5,7 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
 
 ## Configuration
  * Copy common.env.sample to common.env with your Oracle username, password, and server, and any other customizations
+ * By default, parse.sh will compress all succesful log files using gzip. This can be skipped by editing SKIPCOMPRESSION within common.env to 1
 
 ## Usage
  * `./download.sh [n]`

@@ -3,17 +3,18 @@
 # Allow override of $EZPFILESDIR and $EZPURL
 source `dirname $0`/common.env
 
-SKIPCOMPRESSION=0
-if [[ $1 == "-s" ]] || [[ $1 == "--skip" ]] || [[ $1 == "-skip" ]]
-then
-	SKIPCOMPRESSION=1
-elif [[ $1 == "" ]]
-then
-:
-else
-	>&2 echo 'Invalid argument: '$1'. The only valid arguments are -s, -skip, --skip. Aborting now.'
-	exit
-fi
+SKIPCOMPRESSION="${SKIPCOMPRESSION:-0}"
+
+function compress_file() {
+	if [[ $SKIPCOMPRESSION == 0 ]]
+	then
+		gzip $1;
+		if [[ $? != 0 ]]
+		then
+			>&2 echo 'Failed to compress '$2', gzip exited with '$?
+		fi
+	fi
+}
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
@@ -55,15 +56,7 @@ do
 	if [ -e $PROCESSED_DIR/$RAW_LOG_FILE/results.txt ]
 	then
 		# Only compress if they don't skip it
-		if [[ $SKIPCOMPRESSION == 0 ]]
-		then
-			gzip $f;
-			if [[ $? != 0 ]]
-			then
-				rm $f
-				>&2 echo 'Failed to compress '$RAW_LOG_FILE', gzip exited with '$?
-			fi
-		fi
+		compress_file "$f" "$RAW_LOG_FILE"
 		continue;
 	fi
 
@@ -107,14 +100,6 @@ do
 		cp $PROCESSED_DIR/$RAW_LOG_FILE/results.txt $EZPFILESDIR/pending/$RAW_LOG_FILE
 		# Compress log file within downloads directory
 		# Only compress if they don't skip it
-		if [[ $SKIPCOMPRESSION == 0 ]]
-		then
-			gzip $f;
-			if [[ $? != 0 ]]
-			then
-				rm $f
-				>&2 echo 'Failed to compress '$RAW_LOG_FILE', gzip exited with '$?
-			fi
-		fi
+		compress_file "$f" "$RAW_LOG_FILE"
 	fi
 done

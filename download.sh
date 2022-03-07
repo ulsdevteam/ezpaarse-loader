@@ -58,12 +58,11 @@ do
 				gunzip ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
 				if [[ $? != 0 ]]
 				then
-					rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
 					>&2 echo 'Failed to decompress ezp'$TARGETDATE'.log.gz, gunzip exited with '$?
 				fi
 			fi
 		else
-			echo 'Neither ezp'$TARGETDATE'.log nor ezp'$TARGETDATE'.log.gz could be found on the server.'
+			>&2 echo 'Neither ezp'$TARGETDATE'.log nor ezp'$TARGETDATE'.log.gz could be found on the server.'
 		fi
 	fi
 done
