@@ -55,11 +55,11 @@ do
 				rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
 				>&2 echo 'Failed to download ezp'$TARGETDATE'.log.gz, wget exited with '$?
 			else 
-				gzip -d ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
+				gunzip ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
 				if [[ $? != 0 ]]
 				then
 					rm ${EZPFILESDIR}/downloads/ezp${TARGETDATE}.log.gz
-					>&2 echo 'Failed to decompress ezp'$TARGETDATE'.log.gz, gzip exited with '$?
+					>&2 echo 'Failed to decompress ezp'$TARGETDATE'.log.gz, gunzip exited with '$?
 				fi
 			fi
 		else
