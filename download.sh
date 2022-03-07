@@ -65,8 +65,6 @@ do
 		else
 			echo 'Neither ezp'$TARGETDATE'.log nor ezp'$TARGETDATE'.log.gz could be found on the server.'
 		fi
-		else
-			echo 'File already exists.'
 	fi
 done
 
