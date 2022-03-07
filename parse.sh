@@ -34,7 +34,7 @@ do
 	RAW_LOG_FILE=`basename $f`
 
 	# If file is already compressed, skip it
-	if [[$RAW_LOG_FILE == "*.gz"]]
+	if [[ $RAW_LOG_FILE == "*.gz" ]]
 	then
 		continue;
 	fi
