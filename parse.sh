@@ -3,6 +3,19 @@
 # Allow override of $EZPFILESDIR and $EZPURL
 source `dirname $0`/common.env
 
+SKIPCOMPRESSION="${SKIPCOMPRESSION:-0}"
+
+function compress_file() {
+	if [[ $SKIPCOMPRESSION == 0 ]]
+	then
+		gzip $1;
+		if [[ $? != 0 ]]
+		then
+			>&2 echo 'Failed to compress '$2', gzip exited with '$?
+		fi
+	fi
+}
+
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # By default, $EZPFILESDIR is this program directory
@@ -33,9 +46,17 @@ do
 	# Extract the log file name
 	RAW_LOG_FILE=`basename $f`
 
-	# If results already exist for this log file, skip it
+	# If file is already compressed, skip it
+	if [[ $RAW_LOG_FILE == *.gz ]]
+	then
+		continue;
+	fi
+
+	# If results already exist for this log file, compress the file and skip it
 	if [ -e $PROCESSED_DIR/$RAW_LOG_FILE/results.txt ]
 	then
+		# Only compress if they don't skip it
+		compress_file "$f" "$RAW_LOG_FILE"
 		continue;
 	fi
 
@@ -77,5 +98,8 @@ do
 	else
 		# Copy the sucessful results for pickup
 		cp $PROCESSED_DIR/$RAW_LOG_FILE/results.txt $EZPFILESDIR/pending/$RAW_LOG_FILE
+		# Compress log file within downloads directory
+		# Only compress if they don't skip it
+		compress_file "$f" "$RAW_LOG_FILE"
 	fi
 done
