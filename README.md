@@ -17,6 +17,7 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
  * `./process.sh`
    * will look in `pending/` for new logs, moving them to `done/` when completed
    * failures will be output to STDERR, and failed logs and temporary files will be left in `working/`
+   * files with the same name will overwrite existing data within the database
  * `./sponsor.sh`
    * will look at custom LDAP attributes to populate a custom table of RC codes for certain accounts
    * failures will be output to STDERR
@@ -25,6 +26,9 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
    * will populate a datatable with RC codes based on custom SQL
    * failures will be output to STDERR
    * for usage outside of Pitt, you'll need to modify the postprocess.sql file
+
+## Rerunning
+To re-run a log from start to finish, clear the log file from the `downloads/` and `parsed/` directories.  This will force re-download and re-parsing, and subsequent steps will overwrite existing data within the database based on the newly downloaded and parsed files.
 
 ## Copyright/License
  * Copyright University of Pittsburgh
