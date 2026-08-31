@@ -1,5 +1,22 @@
 # EZPAARSE Data Loader
 
+## Note
+We have migrated our database provider from Snowflake, and as 
+such the logic for uploading processed events into Oracle 
+database will be left unmaintained. Due to this, the following
+files will be removed from the repository (they can be found 
+in the commit history if needed)
+
+```
+Files Removed:
+- ./process.sh
+- ./postprocess.sh
+- ./sponsor.sh
+```
+
+The corresponding logic for uploading processed event files to snowflake 
+lives in the following [repo](https://github.com/ulsdevteam/snowflake_ezpaarse_upload).
+
 ## Purpose
 Download EZProxy logs, parse with EZPAARSE, and load processed consulation events into an Oracle table.  The users from these consulation events will be matched against Responsiblity Centers (RCs).
 
@@ -14,15 +31,15 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
    * will look in `downloads/` for new logs, capturing EZPAARSE output to `parsed/`
    * failures will be output to STDERR, and failed logs and temporary files will be left in `parsed/`
    * successful output will be copied to `pending`
- * `./process.sh`
+ * `./process.sh` (Depracated)
    * will look in `pending/` for new logs, moving them to `done/` when completed
    * failures will be output to STDERR, and failed logs and temporary files will be left in `working/`
    * files with the same name will overwrite existing data within the database
- * `./sponsor.sh`
+ * `./sponsor.sh` (Depracated)
    * will look at custom LDAP attributes to populate a custom table of RC codes for certain accounts
    * failures will be output to STDERR
    * for usage outside of Pitt, you'll need to modify the LDAP filter and attributes selected
- * `./postprocess.sh`
+ * `./postprocess.sh` (Depracated)
    * will populate a datatable with RC codes based on custom SQL
    * failures will be output to STDERR
    * for usage outside of Pitt, you'll need to modify the postprocess.sql file
