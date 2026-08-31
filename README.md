@@ -1,7 +1,7 @@
 # EZPAARSE Data Loader
 
 ## Note
-We have migrated our database provider from Snowflake, and as 
+We have migrated our database provider from Oracle to Snowflake, and as 
 such the logic for uploading processed events into Oracle 
 database will be left unmaintained. Due to this, the following
 files will be removed from the repository (they can be found 
