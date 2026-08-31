@@ -31,18 +31,10 @@ Download EZProxy logs, parse with EZPAARSE, and load processed consulation event
    * will look in `downloads/` for new logs, capturing EZPAARSE output to `parsed/`
    * failures will be output to STDERR, and failed logs and temporary files will be left in `parsed/`
    * successful output will be copied to `pending`
- * `./process.sh` (Depracated)
-   * will look in `pending/` for new logs, moving them to `done/` when completed
-   * failures will be output to STDERR, and failed logs and temporary files will be left in `working/`
-   * files with the same name will overwrite existing data within the database
- * `./sponsor.sh` (Depracated)
-   * will look at custom LDAP attributes to populate a custom table of RC codes for certain accounts
-   * failures will be output to STDERR
-   * for usage outside of Pitt, you'll need to modify the LDAP filter and attributes selected
- * `./postprocess.sh` (Depracated)
-   * will populate a datatable with RC codes based on custom SQL
-   * failures will be output to STDERR
-   * for usage outside of Pitt, you'll need to modify the postprocess.sql file
+ * [`snowflake_ezpaarse_upload`](https://github.com/ulsdevteam/snowflake_ezpaarse_upload).
+   * will look in `pending/` and will upload the output to snowflake
+   * failed uploads and temporary files will be left in `working/`
+   * successful output will be copied to `done`
 
 ## Rerunning
 To re-run a log from start to finish, clear the log file from the `downloads/` and `parsed/` directories.  This will force re-download and re-parsing, and subsequent steps will overwrite existing data within the database based on the newly downloaded and parsed files.
